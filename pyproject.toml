@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Testinė programa"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "sqlalchemy>=2.0.40",
+]
 
 [tool.uv.workspace]
 members = ["help"]
