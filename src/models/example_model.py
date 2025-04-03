@@ -1,54 +1,23 @@
-import sqlite3
+import datetime
+from sqlalchemy import Column, DateTime, Integer, String, create_engine
+from sqlalchemy.ext.declarative import declarative_base
 
-class ExampleModel:
-    def __init__(self, id=None, name=None, description=None):
-        self.id = id
-        self.name = name
-        self.description = description
+database_url = 'sqlite:////home/giedrius/venv/lss_app/src/database/'
+database_name = 'app.db'
 
-    def create(self, connection):
-        cursor = connection.cursor()
-        cursor.execute("INSERT INTO example_table (id, name, description) VALUES (?, ?, ?)", 
-                       (self.id, self.name, self.description))
-        connection.commit()
+engine = create_engine(database_url + database_name, echo=True)
 
-    @staticmethod
-    def read(connection, id):
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM example_table WHERE id = ?", (id,))
-        return cursor.fetchone()
+# Will return engine instance
+Base = declarative_base()
 
-    def update(self, connection):
-        cursor = connection.cursor()
-        cursor.execute("UPDATE example_table SET name = ?, description = ? WHERE id = ?", 
-                       (self.name, self.description, self.id))
-        connection.commit()
+# Define your data model
+class User(Base):
+    __tablename__ = 'users'
 
-    @staticmethod
-    def delete(connection, id):
-        cursor = connection.cursor()
-        cursor.execute("DELETE FROM example_table WHERE id = ?", (id,))
-        connection.commit()
-        
-    def create_database(db_file):
-        """Create an SQLite database and define the schema."""
-        connection = sqlite3.connect(db_file)
-        cursor = connection.cursor()
+    id = Column(Integer, primary_key=True)
+    username = Column(String(50), unique=True, nullable=False)
+    email = Column(String(100), unique=True, nullable=False)
+    created_at = Column(DateTime, default=datetime.datetime.now(datetime.timezone.utc))
 
-        # Define the schema for the example_table
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS example_table (
-            id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL,
-            description TEXT
-        )
-        """)
-
-        print(f"Database '{db_file}' and table 'example_table' created successfully.")
-        connection.commit()
-        connection.close()
-        
-if __name__ == "__main__":
-    
-    ExampleModel.create_database("src/database/database.db")
-    # Example usage
+# Create the database tables
+Base.metadata.create_all(engine)
