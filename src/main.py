@@ -1,23 +1,20 @@
-import sqlite3
-from database.db_connection import DatabaseConnection
-from models.example_model import ExampleModel
 
-def main():
-    # Initialize database connection
-    db = DatabaseConnection('database.db')
-    connection = db.connect()
 
-    # Example of using the ExampleModel
-    example_model = ExampleModel(connection)
+import json
 
-    # Perform operations (e.g., create, read, update, delete)
-    # example_model.create(...)
-    # example_model.read(...)
-    # example_model.update(...)
-    # example_model.delete(...)
 
-    # Close the database connection
-    db.close()
+
+
+    
+def open_json_file(file_path):
+    """Open a JSON file and return its contents."""
+    with open(file_path, 'r') as file:
+        #data = json.load(file)
+        parser = json.load(file)
+        #return data
+        for item in parser:
+            print(item)
 
 if __name__ == '__main__':
-    main()
+    open_json_file('/home/giedrius/venv/lss_app/src/raports/salute.json')
+    
