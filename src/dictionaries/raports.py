@@ -7,10 +7,11 @@ Visada turi būti:
 """
 
 raport = {
-    "radio_raports": {
         "salute": {
-            "Pavadinimas": "SALUTE",
-            "Aprašymas": "Pranešimai apie pastebėtą priešą",
+            "description": "SALUTE - pranešimai apie pastebėtą priešą",
+            "keys":{
+                
+            }
         },
         "salta": {
             "description": "SALTA - išsamus kontakto raportas",
@@ -55,7 +56,7 @@ raport = {
             
         },
     }
-},
+
 
 },
 alphabet = {
